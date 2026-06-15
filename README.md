@@ -21,18 +21,18 @@ Features I would like to add to this website:
   - these dictionaries contain a wealth of information, but as of yet, their data has never been combined in a single place.
   - most of these resources *do* have decent scans available on the internet for free, but only one so far has a good digital text version.
 - a list of resources. as of yet, there are no decent lists of resources for Plains Sign available on the internet. Here are a few quick lists:
-  - features coming soon will be:
-    - links to the resources
-    - lots more information about each resource, such as the number of signs in dictionaries and how many illustrations they have.
   - Dictionaries:
     - Mallery 1881
-    - Tomkins 1926
-    - Seton 1918
-    - Hadley 1887
     - Clark 1885
+    - Hadley 1887
+    - Seton 1918
+    - Tomkins 1926
   - About Plains Sign:
     - Davis 2010
     - West 1960
+  - features coming soon will be:
+    - links to the resources
+    - lots more information about each resource, such as the number of signs in dictionaries and how many illustrations they have.
 - a map that shows where eaxtly and from which group each sign was collected, when data is available
 - a way for users to upload their own signs
 - a way for users to comment on the different signs
