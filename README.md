@@ -2,7 +2,7 @@
 
 ## About Plains Sign
 
-This website is about Plains Indian Sign Language (PISL or Plains Sign), a sign language used as a lingua franca by Native Americans across the Great Plains and even beyond from time immemorial. 
+This website is about Plains Indian Sign Language (PISL / Plains Sign / Hand Talk), a sign language used as a lingua franca by Native Americans across the Great Plains and even beyond from time immemorial.
 
 Plains Sign was already established as a lingua franca by the that time the first Euorpeans arrived in the area and wrote down what they saw, 500 years ago (Davis 2010 page 18-19 referring to, among others, the 1542 writings of Cabeza de Vaca's journey across what became the American South and Southwest from 1527-1535). 
 
