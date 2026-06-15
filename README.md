@@ -33,6 +33,6 @@ Features I would like to add to this website:
   - features coming soon will be:
     - links to the resources
     - lots more information about each resource, such as the number of signs in dictionaries and how many illustrations they have.
-- a map that shows where exactly and from which group each sign was collected, when data is available
+- a map that shows where about and from which group each sign was collected, when that information is available
 - a way for users to upload their own signs
 - a way for users to comment on the different signs
