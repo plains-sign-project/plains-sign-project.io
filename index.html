@@ -1,1 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Dictionary</title>
+</head>
+<body>
 
+<div id="content"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+fetch("README.md")
+  .then(response => response.text())
+  .then(markdown => {
+    document.getElementById("content").innerHTML =
+      marked.parse(markdown);
+  });
+</script>
+
+</body>
+</html>
