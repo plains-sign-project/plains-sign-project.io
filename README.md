@@ -8,7 +8,7 @@ Plains Sign was already established as a lingua franca by the that time the firs
 
 Nearly unique among sign languages, the majority of its signers were hearing (not deaf), and its primary use was between hearing individuals. Plains Sign was a primary form of communication used between Plains tribes that spoke different languages.
 
-Plains Sign was also an important source of signs in the development of American Sign Language (ASL). There is upwards of 50% lexical similarity between the two sign languages (Davis 2010:127), which is far more than could ever happen by accident.
+Plains Sign was also an important source of signs in the development of American Sign Language (ASL). There is upwards of 50% lexical similarity between the two sign languages (Davis 2010:127), which is far more than could ever happen by accident. Even the development of Sign Linguistics as a field of study centered around the study of Plains Sign, first by Mallory in the late 1800s, then by West and others in the 1950s. 
 
 ## About this Site
 
