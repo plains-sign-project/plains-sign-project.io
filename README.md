@@ -25,7 +25,7 @@ Features I would like to add to this website:
     - links to the resources
     - lots more information about each resource, such as the number of signs in dictionaries and how many illustrations they have.
   - Dictionaries:
-    - Mallery 1880
+    - Mallery 1881
     - Tomkins 1926
     - Seton 1918
     - Hadley 1887
