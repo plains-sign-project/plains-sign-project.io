@@ -22,16 +22,16 @@ Features I would like to add to this website:
   - most of these resources *do* have decent scans available on the internet for free, but only one so far has a good digital text version.
 - a list of resources. as of yet, there are no decent lists of resources for Plains Sign available on the internet. Here are a few quick lists:
   - Dictionaries:
-    - Mallery 1881
-    - Clark 1885
-    - Hadley 1887
-    - Seton 1918
-    - Tomkins 1926
+    - Mallery 1880 ([PDF original scans](https://library.si.edu/digital-library/book/collectionofgest00smit), [PDF black & white scans](https://archive.org/details/cihm_17852))
+    - Clark 1885 ([PDF black & white scans](https://archive.org/details/cu31924028770570))
+    - Hadley 1893 ([PDF original scans](https://publicdomainreview.org/collection/indian-sign-talk/), [PDF black & white scans](https://archive.org/details/cihm_32888), [PDF list scans](https://www.lib.montana.edu/digital/objects/coll2204/2204-B01-F37.pdf))
+    - Seton 1918 ([Webpage version](https://www.gutenberg.org/files/50938/50938-h/50938-h.htm), [PDF original scans](https://archive.org/details/signtalkuniversa00seto), [PDF black & white](https://archive.org/details/signtalkauniver00powegoog))
+    - Tomkins 1926 ([PDF black & white, 6th edition 1936](https://www.dotycoyote.com/pdfs/sources/tomkins_sign_language.pdf) )
   - About Plains Sign:
     - Davis 2010
     - West 1960
   - features coming soon will be:
-    - links to the resources
+    - fuller list of resources
     - lots more information about each resource, such as the number of signs in dictionaries and how many illustrations they have.
 - a map that shows where about and from which group each sign was collected, when that information is available
 - a way for users to upload their own signs
