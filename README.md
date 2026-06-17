@@ -35,7 +35,7 @@ Features I would like to add to this website:
   - Various Articles
     - [Sign Language](https://publish.iupress.indiana.edu/read/speech-writing-and-sign/section/27a1ed66-74db-47da-bb30-2ab0acfbbf89)
 
-  - features coming soon will be:
+  - features coming soon:
     - fuller list of resources including modern dictionaries that aren't free, articles, media
     - lots more information about each resource, such as the number of signs in dictionaries and how many illustrations they have.
 - a map that shows where about and from which group each sign was collected, when that information is available
