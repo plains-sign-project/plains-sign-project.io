@@ -8,7 +8,7 @@ Plains Sign was already established as a lingua franca by the time that the firs
 
 Nearly unique among sign languages, the majority of its signers were hearing- that is, not deaf- and it was commonly used between hearing individuals. Plains Sign served as a primary form of communication between Plains tribes that spoke different languages.
 
-Plains Sign was also an important source of signs in the development of American Sign Language (ASL). There is upwards of 50% lexical similarity between the two sign languages (Davis 2010:127), which is far more than could ever happen by accident. Even the development of Sign Linguistics as a field of study centered around the study of Plains Sign, first by Mallery in the late 1800s, then by West and others in the 1950s. 
+Plains Sign was also an important source of signs in the development of American Sign Language (ASL). There is upwards of 50% lexical similarity between the two sign languages (Davis 2010:127), which is far more than could ever happen by accident. Plains Sign even played an important role in the development of Sign Linguistics as a field of study, first through the works of Mallery in the late 1800s, then by West and others in the 1950s. 
 
 ## About this Site
 
@@ -32,6 +32,9 @@ Features I would like to add to this website:
     - McKay-Cody 1997 ([PDF scans](https://www.academia.edu/51742120/Plains_Indian_sign_language_a_comparative_study_of_alternate_and_primary_signers_?source=swp_share))
     - West 1960 ([PDF scans](https://www.dropbox.com/scl/fi/knkggrnkvg4squ12rp5p5/west_1960.pdf?rlkey=6gl7i5vo03vt5qt3u62h1hzbd&e=1&dl=0))
       > "perhaps one of the most sophisticated studies of any sign language" ([Sign Language Studies, Vol. 27 page 10](https://ida.gallaudet.edu/cgi/viewcontent.cgi?article=1026&context=sls))
+  - Various Articles
+    - [Sign Language](https://publish.iupress.indiana.edu/read/speech-writing-and-sign/section/27a1ed66-74db-47da-bb30-2ab0acfbbf89)
+
   - features coming soon will be:
     - fuller list of resources including modern dictionaries that aren't free, articles, media
     - lots more information about each resource, such as the number of signs in dictionaries and how many illustrations they have.
