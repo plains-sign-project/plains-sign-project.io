@@ -31,7 +31,7 @@ Features I would like to add to this website:
     - Davis 2010
     - McKay-Cody 1997 ([PDF scans](https://www.academia.edu/51742120/Plains_Indian_sign_language_a_comparative_study_of_alternate_and_primary_signers_?source=swp_share))
     - West 1960 ([PDF scans](https://www.dropbox.com/scl/fi/knkggrnkvg4squ12rp5p5/west_1960.pdf?rlkey=6gl7i5vo03vt5qt3u62h1hzbd&e=1&dl=0))
-      > "perhaps one of the most sophisticated studies of any sign language" ([Sign Language Studies, Vol. 27 page 10](https://ida.gallaudet.edu/cgi/viewcontent.cgi?article=1026&context=sls))
+      > "one of the most sophisticated studies of any sign language" ([Sign Language Studies, Vol. 27 page 10](https://ida.gallaudet.edu/cgi/viewcontent.cgi?article=1026&context=sls))
   - Various Articles
     - [Sign Language](https://publish.iupress.indiana.edu/read/speech-writing-and-sign/section/27a1ed66-74db-47da-bb30-2ab0acfbbf89)
 
