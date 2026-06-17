@@ -33,7 +33,7 @@ Features I would like to add to this website:
     - West 1960 ([PDF scans](https://www.dropbox.com/scl/fi/knkggrnkvg4squ12rp5p5/west_1960.pdf?rlkey=6gl7i5vo03vt5qt3u62h1hzbd&e=1&dl=0))
       > "perhaps one of the most sophisticated studies of any sign language" ([Sign Language Studies, Vol. 27 page 10](https://ida.gallaudet.edu/cgi/viewcontent.cgi?article=1026&context=sls))
   - features coming soon will be:
-    - fuller list of resources
+    - fuller list of resources including modern dictionaries that aren't free, articles, media
     - lots more information about each resource, such as the number of signs in dictionaries and how many illustrations they have.
 - a map that shows where about and from which group each sign was collected, when that information is available
 - a way for users to upload their own signs
