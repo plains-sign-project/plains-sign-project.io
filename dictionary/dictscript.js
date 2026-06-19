@@ -1,60 +1,79 @@
-let fuse;
 let entries = [];
+let fuse;
 
 fetch("dictionary.json")
-  .then(r => r.json())
-  .then(data => {
+    .then(response => response.json())
+    .then(data => {
 
-    entries = data.entries;
+        entries = data.entries.map(entry => ({
+            ...entry,
+            headwordText: entry.headword.join(" ")
+        }));
 
-    fuse = new Fuse(entries, {
-      keys: [
-        "headword"
-      ],
-      threshold: 0.3,
-      ignoreLocation: true
+        fuse = new Fuse(entries, {
+            keys: [
+                "headwordText",
+                "sign",
+                "note"
+            ],
+            threshold: 0.3,
+            ignoreLocation: true
+        });
+
+        displayEntries(entries);
+    })
+    .catch(error => {
+        console.error(error);
+        document.getElementById("results").innerHTML =
+            "<p>Error loading dictionary.</p>";
     });
 
-    showEntries(entries);
-  });
+function displayEntries(items) {
 
-function showEntries(items) {
+    const results = document.getElementById("results");
 
-  const results = document.getElementById("results");
+    if (items.length === 0) {
+        results.innerHTML = "<p>No matches found.</p>";
+        return;
+    }
 
-  results.innerHTML = items.map(entry => `
-    <div class="entry">
+    results.innerHTML = items.map(entry => `
 
-      <div class="headwords">
-        ${entry.headword.join(", ")}
-      </div>
+        <div class="entry">
 
-      ${entry.note
-        ? `<div class="note">${entry.note}</div>`
-        : ""}
+            <div class="headword">
+                ${entry.headword.join(", ")}
+            </div>
 
-      <div class="sign">
-        ${entry.sign}
-      </div>
+            ${entry.note
+                ? `<div class="note">${entry.note}</div>`
+                : ""}
 
-    </div>
-  `).join("");
+            <div class="sign">
+                ${entry.sign}
+            </div>
+
+        </div>
+
+    `).join("");
 }
 
 document
-  .getElementById("search")
-  .addEventListener("input", function () {
+    .getElementById("search")
+    .addEventListener("input", function () {
 
-    const q = this.value.trim();
+        const query = this.value.trim();
 
-    if (q === "") {
-      showEntries(entries);
-      return;
-    }
+        if (query === "") {
+            displayEntries(entries);
+            return;
+        }
 
-    const matches = fuse.search(q);
+        const matches = fuse.search(query);
 
-    showEntries(
-      matches.map(m => m.item)
-    );
-  });
+        displayEntries(
+            matches
+                .slice(0, 50)
+                .map(match => match.item)
+        );
+    });
