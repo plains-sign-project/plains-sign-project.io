@@ -1,159 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <link rel="stylesheet" href="style.css">
-
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>Dictionary</title>
-
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
-
-<style>
-body {
-    margin: 0;
-}
-
-.markdown-body {
-    box-sizing: border-box;
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 1rem;
-}
-
-#search {
-    width: 100%;
-    padding: 12px;
-    font-size: 1rem;
-    box-sizing: border-box;
-    margin-bottom: 1rem;
-}
-
-.entry {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #d0d7de;
-}
-
-.headword {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.note {
-    font-style: italic;
-    margin-bottom: 0.5rem;
-}
-
-.sign {
-    line-height: 1.5;
-}
-
-@media (prefers-color-scheme: dark) {
-    .entry {
-        border-bottom: 1px solid #30363d;
-    }
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Plains Sign Dictionary</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
+  <main class="container">
+    <h1>Plains Sign Dictionary</h1>
 
-<nav>
-  <a href="./">Home</a> |
-  <a href="./dictionary">Dictionary</a>
-</nav>
-  
-<main class="markdown-body">
+    <label for="search" class="sr-only">Search dictionary</label>
+    <div class="search-row">
+      <input id="search" type="search" placeholder="Search headwords, sign description, or notes…" autofocus />
+      <button id="clear" title="Clear search">✕</button>
+    </div>
 
-<h1>Dictionary</h1>
+    <div id="status" class="muted">Loading dictionary…</div>
 
-<p>
-<a href="./">Home</a>
-</p>
+    <div id="results" class="results" aria-live="polite"></div>
+  </main>
 
-<input
-    id="search"
-    type="text"
-    placeholder="Search for a word...">
-
-<div id="results"></div>
-
-</main>
-
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@7"></script>
-<!-- <script src="dictscript.js"></script> -->
-
-<script>
-let entries = [];
-let fuse;
-
-fetch("dictionary.json")
-    .then(response => response.json())
-    .then(data => {
-
-    entries = data.entries.map(entry => ({
-      ...entry,
-      searchText: entry.headword.join(" ")
-    }));
-
-    fuse = new Fuse(entries, {
-        keys: ["searchText"],
-        threshold: 0.4,
-        ignoreLocation: true
-    });
-      
-        displayEntries(entries);
-    });
-
-function displayEntries(items) {
-
-    const results = document.getElementById("results");
-
-    results.innerHTML = items.map(entry => `
-
-        <div class="entry">
-
-            <div class="headword">
-                ${entry.headword.join(", ")}
-            </div>
-
-            ${entry.note
-                ? `<div class="note">${entry.note}</div>`
-                : ""}
-
-            <div class="sign">
-                ${entry.sign}
-            </div>
-
-        </div>
-
-    `).join("");
-}
-
-document
-    .getElementById("search")
-    .addEventListener("input", function () {
-
-        const query = this.value.trim();
-
-        if (query === "") {
-            displayEntries(entries);
-            return;
-        }
-
-        const matches = fuse.search(query);
-
-        displayEntries(
-            matches
-                .slice(0, 50)
-                .map(match => match.item)
-        );
-    });
-</script>
-
+  <script src="script.js" defer></script>
 </body>
 </html>
