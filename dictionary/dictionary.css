@@ -1,0 +1,74 @@
+.dictionary-root {
+  --fg: #24292e;
+  --muted: #6a737d;
+  --accent: #0366d6;
+  --muted-border: #e1e4e8;
+  --mark: #fff5b1;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  color: var(--fg);
+  background: white;
+}
+
+/* Container spacing (keeps existing .container behavior) */
+.dictionary-root .search-row{ display:flex; gap:.5rem; margin-bottom:.6rem; align-items:center; }
+.dictionary-root #search{
+  flex:1;
+  padding:.5rem .75rem;
+  border:1px solid var(--muted-border);
+  border-radius:6px;
+  background:white;
+  color:var(--fg);
+}
+.dictionary-root #search:focus{
+  box-shadow: 0 0 0 4px rgba(3,102,214,0.08);
+  border-color: var(--accent);
+}
+.dictionary-root #clear{ background:transparent; border:0; color:var(--muted); cursor:pointer; }
+
+/* Results list scoped to the dictionary page */
+.dictionary-root .results{ display:block; margin-top:0; }
+
+/* Each result */
+.dictionary-root .card{
+  padding: .75rem 0;
+  padding-left: 1.25rem; /* indentation for the entry body */
+  position: relative;
+}
+
+/* Separator between results */
+.dictionary-root .card + .card{
+  border-top: 1px solid var(--muted-border);
+  margin-top: .5rem;
+  padding-top: .75rem;
+}
+
+/* Headwords: bold and hanging-indent (pulled left to align with page edge) */
+.dictionary-root .headwords{
+  font-weight:700;
+  margin: 0 0 .25rem;
+  margin-left: -1.25rem; /* pull the headword to the left of the indented body */
+  display:block;
+  line-height:1.25;
+}
+
+/* Sign text */
+.dictionary-root .sign{
+  white-space:pre-wrap;
+  margin:0 0 .4rem 0;
+  color:var(--fg);
+  font-size:0.98rem;
+}
+
+/* Notes: italic and muted */
+.dictionary-root .note{
+  font-style:italic;
+  color:var(--muted);
+  margin-top:.25rem;
+  font-size:.95rem;
+}
+
+/* Count line */
+.dictionary-root .count{ font-size:.9rem; color:var(--muted); margin-bottom:.5rem; }
+
+/* Highlighting used by the search script */
+.dictionary-root mark{ background: var(--mark); padding:0 .12rem; border-radius:3px; }
