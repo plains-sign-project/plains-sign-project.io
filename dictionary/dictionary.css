@@ -20,11 +20,12 @@
   background:white;
   color:var(--fg);
 }
-.dictionary-root .author {
+.dictionary-root .source {
   color: var(--muted);
   font-size: 0.9rem;
   margin-top: 0.15rem;
   margin-bottom: 0.45rem;
+  font-style: normal;
 }
 .dictionary-root #search:focus{
   box-shadow: 0 0 0 4px rgba(3,102,214,0.08);
