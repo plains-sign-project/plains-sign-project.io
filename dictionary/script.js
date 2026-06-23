@@ -1,7 +1,5 @@
 // dictionary/script.js
-// Replacement (robust) with "search in" field selector:
-// - IDB caching, Fuse.js fuzzy search, filters, keyboard nav, detail view
-// - Honors field selection: headword, definition (sign), note, or all
+// Full implementation (IDB cache, Fuse fuzzy, filters, search-in selector, keyboard nav, detail modal)
 
 (() => {
   'use strict';
@@ -12,14 +10,14 @@
   const IDB_STORE = 'kv';
   const CACHE_KEY = 'dictionary-v1';
 
-  // DOM nodes (may be null if HTML doesn't include them)
   const searchEl = document.getElementById('search');
   const clearBtn = document.getElementById('clear');
   const fuzzyEl = document.getElementById('fuzzy');
   const exactEl = document.getElementById('exact');
-  const fieldSelect = document.getElementById('fieldSelect'); // NEW
+  const fieldSelect = document.getElementById('fieldSelect');
   const firstLetterEl = document.getElementById('firstLetter');
   const tagFilterEl = document.getElementById('tagFilter');
+  const refreshBtn = document.getElementById('refresh');
   const resultsEl = document.getElementById('results');
   const statusEl = document.getElementById('status');
 
@@ -31,8 +29,9 @@
   let fuse = null;
   let displayed = [];
   let focusedIndex = -1;
+  let dictAuthor = '';
 
-  // ---------- IndexedDB helpers (defensive) ----------
+  // IndexedDB helpers (defensive)
   function openDb(){
     return new Promise((resolve, reject) => {
       try {
@@ -83,7 +82,7 @@
     }
   }
 
-  // ---------- Utilities ----------
+  // Utilities
   function escapeRegex(str){ return String(str).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
   function highlight(text, query){
     if(!query) return text;
@@ -94,7 +93,7 @@
   }
   function mkHeadwordsString(hws){ return Array.isArray(hws) ? hws.join(' • ') : (hws || ''); }
 
-  // ---------- Robust fetch with fallback ----------
+  // Robust fetch with fallback
   async function tryFetchJson(url){
     const res = await fetch(url, { cache: 'no-cache' });
     if(!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -104,20 +103,22 @@
   }
 
   async function fetchWithFallback(){
-    try { return await tryFetchJson(JSON_URL); }
-    catch (errPrimary) {
-      console.warn('Primary fetch failed:', errPrimary);
-      try {
+    // Prefer relative URL when served from GitHub Pages or local; if being viewed on github.com, prefer raw first
+    const onGitHubUI = location.hostname.includes('github.com') || location.protocol === 'file:';
+    if(onGitHubUI){
+      try { return await tryFetchJson(RAW_FALLBACK); }
+      catch (e1) { console.warn('raw first failed, trying relative', e1); return await tryFetchJson(JSON_URL); }
+    } else {
+      try { return await tryFetchJson(JSON_URL); }
+      catch (errPrimary) {
+        console.warn('Primary fetch failed:', errPrimary);
         if(statusEl) statusEl.textContent = 'Retrying with fallback…';
         return await tryFetchJson(RAW_FALLBACK);
-      } catch (errFallback) {
-        console.error('Fallback fetch failed:', errFallback);
-        throw new Error('Failed to fetch dictionary JSON');
       }
     }
   }
 
-  // ---------- Load dictionary (cache-first then network) ----------
+  // Load dictionary (cache-first then network)
   async function loadDictionary(){
     if(statusEl) statusEl.textContent = 'Loading dictionary (from cache)…';
     const cached = await idbGet(CACHE_KEY);
@@ -132,12 +133,17 @@
     try {
       const data = await fetchWithFallback();
       if(!data || !Array.isArray(data.entries)) throw new Error('Invalid JSON: missing entries');
+
+      // store top-level author and copy into each entry if entry lacks author
+      dictAuthor = data.author ? String(data.author) : '';
       const loaded = (data.entries || []).map(e => ({
         headword: Array.isArray(e.headword) ? e.headword : [e.headword || ''],
         sign: e.sign || '',
         note: e.note || '',
-        tags: Array.isArray(e.tags) ? e.tags.slice() : (e.tags ? [e.tags] : [])
+        tags: Array.isArray(e.tags) ? e.tags.slice() : (e.tags ? [e.tags] : []),
+        author: (e.author && String(e.author)) || dictAuthor || ''
       }));
+
       const needUpdate = !cached || cached.entries.length !== loaded.length;
       entries = loaded;
       try { await idbPut(CACHE_KEY, { timestamp: Date.now(), entries: loaded }); } catch(_) {}
@@ -154,7 +160,7 @@
     }
   }
 
-  // ---------- After entries loaded ----------
+  // After entries loaded
   function initAfterLoad(){
     buildFirstLetterOptions();
     buildTagOptions();
@@ -187,24 +193,21 @@
     Array.from(tags).sort().forEach(t => { const opt = document.createElement('option'); opt.value = t; opt.textContent = t; tagFilterEl.appendChild(opt); });
   }
 
-  // ---------- Fuse init based on fieldSelect ----------
+  // Fuse init keys for field selection
   function getFuseKeysForSelection(sel){
-    // Map selection to Fuse keys
-    // headword -> headword
-    // definition -> sign
-    // note -> note
-    // all -> headword, sign, note
     if(!sel) sel = 'all';
     switch(sel){
       case 'headword': return [{ name: 'headword', weight: 1 }];
       case 'definition': return [{ name: 'sign', weight: 1 }];
       case 'note': return [{ name: 'note', weight: 1 }];
+      case 'author': return [{ name: 'author', weight: 1 }];
       case 'all':
       default:
         return [
-          { name: 'headword', weight: 0.7 },
+          { name: 'headword', weight: 0.6 },
           { name: 'sign', weight: 0.2 },
-          { name: 'note', weight: 0.1 }
+          { name: 'note', weight: 0.1 },
+          { name: 'author', weight: 0.1 }
         ];
     }
   }
@@ -226,7 +229,7 @@
     }
   }
 
-  // ---------- Filters & search (honor fieldSelect) ----------
+  // Filters & search
   function filterByFirstLetter(list, letter){
     if(!letter) return list;
     return list.filter(e => e.headword.some(hw => (hw||'').charAt(0).toUpperCase() === letter.toUpperCase()));
@@ -253,11 +256,14 @@
         return (e.sign||'').toLowerCase().includes(q);
       } else if(only === 'note'){
         return (e.note||'').toLowerCase().includes(q);
+      } else if(only === 'author'){
+        return ((e.author||'')).toLowerCase().includes(q);
       } else {
         // all
         if(e.headword.some(hw => (hw||'').toLowerCase().includes(q))) return true;
         if((e.sign||'').toLowerCase().includes(q)) return true;
         if((e.note||'').toLowerCase().includes(q)) return true;
+        if(((e.author||'')).toLowerCase().includes(q)) return true;
         return false;
       }
     });
@@ -275,7 +281,6 @@
       result = exactHeadwordFilter(entries, query);
     } else if(useFuzzy && query) {
       try {
-        // Fuse was initialized for the selected fields in setupFuse()
         const fuseRes = fuse.search(query);
         result = fuseRes.map(r => r.item);
       } catch (e) {
@@ -291,7 +296,7 @@
     return result;
   }
 
-  // ---------- Rendering ----------
+  // Rendering
   function renderResults(query){
     if(!resultsEl) return;
     const q = (query || '').trim();
@@ -327,6 +332,13 @@
       hw.innerHTML = highlight(mkHeadwordsString(e.headword), q);
       card.appendChild(hw);
 
+      if(e.author){
+        const authorLine = document.createElement('div');
+        authorLine.className = 'author';
+        authorLine.textContent = `Author: ${e.author}`;
+        card.appendChild(authorLine);
+      }
+
       const sign = document.createElement('p');
       sign.className = 'sign';
       sign.innerHTML = highlight(e.sign || '', q);
@@ -356,7 +368,7 @@
     focusedIndex = -1;
   }
 
-  // ---------- Keyboard navigation ----------
+  // Keyboard navigation
   function focusResult(index){
     if(!resultsEl) return;
     const list = resultsEl.querySelectorAll('.card');
@@ -388,7 +400,7 @@
     }
   });
 
-  // ---------- Detail view ----------
+  // Detail view
   function openDetail(displayIndex){
     const entry = displayed[displayIndex];
     if(!entry) return;
@@ -399,8 +411,10 @@
     detailContent.innerHTML = '';
     const title = document.createElement('h2'); title.textContent = mkHeadwordsString(entry.headword);
     detailContent.appendChild(title);
-    const sign = document.createElement('p'); sign.className = 'sign'; sign.textContent = entry.sign || '';
-    detailContent.appendChild(sign);
+    if(entry.author){
+      const a = document.createElement('div'); a.className = 'author'; a.textContent = `Author: ${entry.author}`; detailContent.appendChild(a);
+    }
+    const sign = document.createElement('p'); sign.className = 'sign'; sign.textContent = entry.sign || ''; detailContent.appendChild(sign);
     if(entry.note){ const note = document.createElement('div'); note.className = 'note'; note.textContent = entry.note; detailContent.appendChild(note); }
     if(Array.isArray(entry.tags) && entry.tags.length){ const tags = document.createElement('div'); tags.className = 'tags'; tags.textContent = 'Tags: ' + entry.tags.join(', '); detailContent.appendChild(tags); }
 
@@ -430,9 +444,8 @@
     console.warn('dictionary script: detailModal not found; detail view disabled');
   }
 
-  // ---------- Event wiring ----------
+  // Event wiring
   function debounce(fn, wait=160){ let t; return (...args)=>{ clearTimeout(t); t = setTimeout(()=>fn(...args), wait); }; }
-
   const onInput = debounce((ev)=> { renderResults(ev.target.value); }, 120);
 
   if(searchEl) searchEl.addEventListener('input', onInput);
@@ -442,7 +455,14 @@
     renderResults('');
   });
 
-  // When field selection changes we re-init Fuse (so fuzzy searches are constrained)
+  if(refreshBtn){
+    refreshBtn.addEventListener('click', async () => {
+      try { indexedDB.deleteDatabase(IDB_NAME); } catch(e){ console.warn('delete DB failed', e); }
+      if(statusEl) statusEl.textContent = 'Refreshing dictionary…';
+      await loadDictionary();
+    });
+  }
+
   if(fieldSelect) {
     fieldSelect.addEventListener('change', () => {
       setupFuse();
@@ -453,13 +473,12 @@
   [fuzzyEl, exactEl, firstLetterEl, tagFilterEl].forEach(el => {
     if(!el) return;
     el.addEventListener('change', () => {
-      // If the fuzzy toggle changed, ensure fuse is available (it will have been init'd or will be null)
       if(el === fuzzyEl && fieldSelect) setupFuse();
       renderResults(searchEl ? searchEl.value : '');
     });
   });
 
-  // ---------- Initial load ----------
+  // Initial load
   loadDictionary().catch(err => {
     console.error('Unexpected loadDictionary error', err);
     if(statusEl) statusEl.textContent = 'Error initializing dictionary.';
