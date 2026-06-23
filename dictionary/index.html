@@ -6,6 +6,8 @@
   <title>Plains Sign Dictionary</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="/dictionary/dictionary.css">
+  <!-- Fuse.js for fuzzy searching -->
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js" defer></script>
 </head>
 <body>
   <main class="container dictionary-root">
@@ -17,12 +19,44 @@
       <button id="clear" title="Clear search">✕</button>
     </div>
 
+    <!-- controls: fuzzy, exact, field selection, first letter, tag -->
+    <div class="controls-row">
+      <label><input id="fuzzy" type="checkbox"> Fuzzy (typos)</label>
+      <label><input id="exact" type="checkbox"> Exact headword only</label>
+
+      <label for="fieldSelect">Search in:</label>
+      <select id="fieldSelect">
+        <option value="all">All</option>
+        <option value="headword">Headword</option>
+        <option value="definition">Definition</option>
+        <option value="note">Note</option>
+      </select>
+
+      <label for="firstLetter">First letter:</label>
+      <select id="firstLetter">
+        <option value="">All</option>
+      </select>
+
+      <label for="tagFilter">Tag:</label>
+      <select id="tagFilter">
+        <option value="">All</option>
+      </select>
+    </div>
+
     <div id="status" class="muted">Loading dictionary…</div>
 
     <div id="results" class="results" aria-live="polite"></div>
   </main>
-  
-  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js" defer></script>
+
+  <!-- Entry detail modal -->
+  <div id="detailModal" class="detail-modal" aria-hidden="true">
+    <div class="detail-panel">
+      <button id="closeDetail" class="close-btn" aria-label="Close">✕</button>
+      <div id="detailContent"></div>
+    </div>
+    <div class="detail-backdrop"></div>
+  </div>
+
   <script src="script.js" defer></script>
 </body>
 </html>
