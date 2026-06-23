@@ -15,7 +15,7 @@
 
     <label for="search" class="sr-only">Search dictionary</label>
     <div class="search-row">
-      <input id="search" type="search" placeholder="Search headwords, sign description, or notes…" autofocus />
+      <input id="search" type="search" placeholder="Search headwords, sign description, author, or notes…" autofocus />
       <button id="clear" title="Clear search">✕</button>
     </div>
 
@@ -30,6 +30,7 @@
         <option value="headword">Headword</option>
         <option value="definition">Definition</option>
         <option value="note">Note</option>
+        <option value="author">Author</option>
       </select>
 
       <label for="firstLetter">First letter:</label>
@@ -41,6 +42,8 @@
       <select id="tagFilter">
         <option value="">All</option>
       </select>
+
+      <button id="refresh" title="Refresh dictionary">Refresh</button>
     </div>
 
     <div id="status" class="muted">Loading dictionary…</div>
