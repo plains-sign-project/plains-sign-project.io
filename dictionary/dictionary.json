@@ -156,7 +156,7 @@
 {
 "headword": ["Afraid", "Cowardly"],
 "note": "Seger says this means Buffalo backing out of fight; that is, “drawing in his horns.”.",
-"sign" "Hold out both G hands level, backs out, G fingers hooked like horns, draw them straight back together for six inches. Mostly but one hand is used. Compare <i>Bring</i>.",
+"sign": "Hold out both G hands level, backs out, G fingers hooked like horns, draw them straight back together for six inches. Mostly but one hand is used. Compare <i>Bring</i>.",
 "author": "Seton"
 },
 
@@ -6050,9 +6050,9 @@
 
 {
 "headword": ["Meat"],
-"sign": "Hold out the flat left, back up; then with the flat right, palm up, slice pieces off the left palm. This is generally used, but often with left palm up.",
-"sign": "Lay the flat left hand, little finger down, between the thumb and fingers of the flat right, as far in as possible; then pat the back of the left by opening and closing the right a little and add <i>Buffalo</i>. In conversation, <i>Buffalo</i> without the first sign is often used for <i>Meat</i>, just as we use <i>Beef</i>. The first part of this is much like <i>Thick</i> and <i>Thin</i>, but the whole of the left fingers are involved and the right hand is not slid along.",
-"sign": "With right index and thumb, pinch the flesh at the palmar base of the left thumb. (Father Isadore says this is fixed and universal among the Comanches.)",
+"sign 1": "Hold out the flat left, back up; then with the flat right, palm up, slice pieces off the left palm. This is generally used, but often with left palm up.",
+"sign 2": "Lay the flat left hand, little finger down, between the thumb and fingers of the flat right, as far in as possible; then pat the back of the left by opening and closing the right a little and add <i>Buffalo</i>. In conversation, <i>Buffalo</i> without the first sign is often used for <i>Meat</i>, just as we use <i>Beef</i>. The first part of this is much like <i>Thick</i> and <i>Thin</i>, but the whole of the left fingers are involved and the right hand is not slid along.",
+"sign 3": "With right index and thumb, pinch the flesh at the palmar base of the left thumb. (Father Isadore says this is fixed and universal among the Comanches.)",
 "author": "Seton"
 },
 
@@ -7848,7 +7848,7 @@
 
 {
 "headword": ["Question", "Query", "Interrogation", "I am asking you a question", "I want to know"],
-"note": "usually equivalent to “Is that you?” (Groping or uncertain.)" 
+"note": "usually equivalent to “Is that you?” (Groping or uncertain.)",
 "sign": "Hold up the right hand toward the person, palm down and forward, fingers and thumb open, spread, but a little curved; by wrist action, swing the hand in small vertical semicircles. The diagram below the illustration indicates the finger tips seen from in front. The motion shown for the little finger is, of course, shared by all. This is a very important and much-used sign; it appears before all questions.",
 "author": "Seton"
 },
