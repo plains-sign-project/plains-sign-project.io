@@ -1,10 +1,7 @@
 // dictionary/script.js
-// Replacement (robust):
-// - IndexedDB caching (cache-first, network fallback)
-// - Fuse.js fuzzy search (optional)
-// - Exact headword / first-letter / tag filters
-// - Keyboard navigation and entry detail view
-// - Defensive guards so missing DOM nodes or IDB issues don't stop the page
+// Replacement (robust) with "search in" field selector:
+// - IDB caching, Fuse.js fuzzy search, filters, keyboard nav, detail view
+// - Honors field selection: headword, definition (sign), note, or all
 
 (() => {
   'use strict';
@@ -20,6 +17,7 @@
   const clearBtn = document.getElementById('clear');
   const fuzzyEl = document.getElementById('fuzzy');
   const exactEl = document.getElementById('exact');
+  const fieldSelect = document.getElementById('fieldSelect'); // NEW
   const firstLetterEl = document.getElementById('firstLetter');
   const tagFilterEl = document.getElementById('tagFilter');
   const resultsEl = document.getElementById('results');
@@ -39,9 +37,7 @@
     return new Promise((resolve, reject) => {
       try {
         const req = indexedDB.open(IDB_NAME, 1);
-        const timer = setTimeout(() => {
-          reject(new Error('IndexedDB open timeout'));
-        }, 3000);
+        const timer = setTimeout(() => reject(new Error('IndexedDB open timeout')), 3000);
         req.onupgradeneeded = () => {
           const db = req.result;
           if(!db.objectStoreNames.contains(IDB_STORE)){
@@ -93,12 +89,8 @@
     if(!query) return text;
     const q = escapeRegex(query.trim());
     if(!q) return text;
-    try {
-      const re = new RegExp(q, 'ig');
-      return String(text).replace(re, m => `<mark>${m}</mark>`);
-    } catch (e) {
-      return text;
-    }
+    try { const re = new RegExp(q, 'ig'); return String(text).replace(re, m => `<mark>${m}</mark>`); }
+    catch (e) { return text; }
   }
   function mkHeadwordsString(hws){ return Array.isArray(hws) ? hws.join(' • ') : (hws || ''); }
 
@@ -112,9 +104,8 @@
   }
 
   async function fetchWithFallback(){
-    try {
-      return await tryFetchJson(JSON_URL);
-    } catch (errPrimary) {
+    try { return await tryFetchJson(JSON_URL); }
+    catch (errPrimary) {
       console.warn('Primary fetch failed:', errPrimary);
       try {
         if(statusEl) statusEl.textContent = 'Retrying with fallback…';
@@ -126,10 +117,9 @@
     }
   }
 
-  // ---------- Load dictionary (cache-first, then network) ----------
+  // ---------- Load dictionary (cache-first then network) ----------
   async function loadDictionary(){
     if(statusEl) statusEl.textContent = 'Loading dictionary (from cache)…';
-
     const cached = await idbGet(CACHE_KEY);
     if(cached && Array.isArray(cached.entries)){
       entries = cached.entries;
@@ -168,7 +158,7 @@
   function initAfterLoad(){
     buildFirstLetterOptions();
     buildTagOptions();
-    setupFuse();
+    setupFuse(); // uses current fieldSelect value
     renderResults('');
   }
 
@@ -183,9 +173,7 @@
     const sorted = Array.from(letters).sort();
     firstLetterEl.innerHTML = '<option value="">All</option>';
     for(const L of sorted){
-      const opt = document.createElement('option');
-      opt.value = L; opt.textContent = L;
-      firstLetterEl.appendChild(opt);
+      const opt = document.createElement('option'); opt.value = L; opt.textContent = L; firstLetterEl.appendChild(opt);
     }
   }
 
@@ -196,19 +184,40 @@
       if(Array.isArray(e.tags)) for(const t of e.tags) if(t) tags.add(t);
     }
     tagFilterEl.innerHTML = '<option value="">All</option>';
-    Array.from(tags).sort().forEach(t=>{
-      const opt = document.createElement('option');
-      opt.value = t; opt.textContent = t;
-      tagFilterEl.appendChild(opt);
-    });
+    Array.from(tags).sort().forEach(t => { const opt = document.createElement('option'); opt.value = t; opt.textContent = t; tagFilterEl.appendChild(opt); });
+  }
+
+  // ---------- Fuse init based on fieldSelect ----------
+  function getFuseKeysForSelection(sel){
+    // Map selection to Fuse keys
+    // headword -> headword
+    // definition -> sign
+    // note -> note
+    // all -> headword, sign, note
+    if(!sel) sel = 'all';
+    switch(sel){
+      case 'headword': return [{ name: 'headword', weight: 1 }];
+      case 'definition': return [{ name: 'sign', weight: 1 }];
+      case 'note': return [{ name: 'note', weight: 1 }];
+      case 'all':
+      default:
+        return [
+          { name: 'headword', weight: 0.7 },
+          { name: 'sign', weight: 0.2 },
+          { name: 'note', weight: 0.1 }
+        ];
+    }
   }
 
   function setupFuse(){
-    if(typeof Fuse === 'undefined') { fuse = null; return; }
+    if(typeof Fuse === 'undefined'){ fuse = null; return; }
     try {
+      const sel = fieldSelect ? fieldSelect.value : 'all';
       const options = {
-        keys: [{ name: 'headword', weight: 0.7 }, { name: 'sign', weight: 0.2 }, { name: 'note', weight: 0.1 }],
-        includeScore: true, threshold: 0.4, ignoreLocation: true
+        keys: getFuseKeysForSelection(sel),
+        includeScore: true,
+        threshold: 0.4,
+        ignoreLocation: true
       };
       fuse = new Fuse(entries, options);
     } catch (e) {
@@ -217,7 +226,7 @@
     }
   }
 
-  // ---------- Filters & search ----------
+  // ---------- Filters & search (honor fieldSelect) ----------
   function filterByFirstLetter(list, letter){
     if(!letter) return list;
     return list.filter(e => e.headword.some(hw => (hw||'').charAt(0).toUpperCase() === letter.toUpperCase()));
@@ -231,14 +240,26 @@
     const q = query.trim().toLowerCase();
     return list.filter(e => e.headword.some(hw => (hw||'').toLowerCase() === q));
   }
-  function substringMatch(list, query){
+
+  // Substring match constrained to chosen fields
+  function substringMatchFields(list, query, sel){
     if(!query) return list.slice();
     const q = query.trim().toLowerCase();
+    const only = sel || (fieldSelect ? fieldSelect.value : 'all');
     return list.filter(e => {
-      if(e.headword.some(hw => (hw||'').toLowerCase().includes(q))) return true;
-      if((e.sign||'').toLowerCase().includes(q)) return true;
-      if((e.note||'').toLowerCase().includes(q)) return true;
-      return false;
+      if(only === 'headword'){
+        return e.headword.some(hw => (hw||'').toLowerCase().includes(q));
+      } else if(only === 'definition'){
+        return (e.sign||'').toLowerCase().includes(q);
+      } else if(only === 'note'){
+        return (e.note||'').toLowerCase().includes(q);
+      } else {
+        // all
+        if(e.headword.some(hw => (hw||'').toLowerCase().includes(q))) return true;
+        if((e.sign||'').toLowerCase().includes(q)) return true;
+        if((e.note||'').toLowerCase().includes(q)) return true;
+        return false;
+      }
     });
   }
 
@@ -247,13 +268,23 @@
     const useFuzzy = fuzzyEl && fuzzyEl.checked && !!fuse && !!query;
     const firstLetter = firstLetterEl ? firstLetterEl.value : '';
     const tag = tagFilterEl ? tagFilterEl.value : '';
+
     let result = [];
 
-    if(useExact && query) result = exactHeadwordFilter(entries, query);
-    else if(useFuzzy && query){
-      try { result = fuse.search(query).map(r => r.item); }
-      catch (e) { console.warn('Fuse search error', e); result = substringMatch(entries, query); }
-    } else result = substringMatch(entries, query);
+    if(useExact && query) {
+      result = exactHeadwordFilter(entries, query);
+    } else if(useFuzzy && query) {
+      try {
+        // Fuse was initialized for the selected fields in setupFuse()
+        const fuseRes = fuse.search(query);
+        result = fuseRes.map(r => r.item);
+      } catch (e) {
+        console.warn('Fuse search error', e);
+        result = substringMatchFields(entries, query, fieldSelect ? fieldSelect.value : 'all');
+      }
+    } else {
+      result = substringMatchFields(entries, query, fieldSelect ? fieldSelect.value : 'all');
+    }
 
     result = filterByFirstLetter(result, firstLetter);
     result = filterByTag(result, tag);
@@ -411,9 +442,21 @@
     renderResults('');
   });
 
+  // When field selection changes we re-init Fuse (so fuzzy searches are constrained)
+  if(fieldSelect) {
+    fieldSelect.addEventListener('change', () => {
+      setupFuse();
+      renderResults(searchEl ? searchEl.value : '');
+    });
+  }
+
   [fuzzyEl, exactEl, firstLetterEl, tagFilterEl].forEach(el => {
     if(!el) return;
-    el.addEventListener('change', () => renderResults(searchEl ? searchEl.value : ''));
+    el.addEventListener('change', () => {
+      // If the fuzzy toggle changed, ensure fuse is available (it will have been init'd or will be null)
+      if(el === fuzzyEl && fieldSelect) setupFuse();
+      renderResults(searchEl ? searchEl.value : '');
+    });
   });
 
   // ---------- Initial load ----------
