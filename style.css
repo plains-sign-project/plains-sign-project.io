@@ -30,13 +30,17 @@ body {
   }
 }
 
-/* Link color variable (light/dark aware) */
+/* Link color variable (light/dark aware) and nav hover background */
 :root {
   --link-color: #0366d6; /* GitHub-like blue for light mode */
+  --nav-hover-bg: rgba(0,0,0,0.06);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root { --link-color: #58a6ff; } /* slightly lighter blue for dark mode */
+  :root {
+    --link-color: #58a6ff; /* slightly lighter blue for dark mode */
+    --nav-hover-bg: rgba(255,255,255,0.06);
+  }
 }
 
 /* nav: matches .markdown-body layout; reduced vertical gap */
@@ -68,20 +72,12 @@ nav.markdown-body a {
   transition: background-color 0.12s ease, color 0.12s ease;
 }
 
-/* hover/focus: subtle underline instead of heavy background */
+/* hover/focus: subtle background (light/dark aware); keep active link underline */
 nav.markdown-body a:hover,
 nav.markdown-body a:focus {
-  text-decoration: underline;
-  background-color: transparent;
+  background-color: var(--nav-hover-bg);
+  text-decoration: none;
   outline: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  nav.markdown-body a:hover,
-  nav.markdown-body a:focus {
-    text-decoration: underline;
-    background-color: transparent;
-  }
 }
 
 /* optional: visually indicate active page */
