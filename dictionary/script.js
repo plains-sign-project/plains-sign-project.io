@@ -340,11 +340,11 @@
         card.appendChild(note);
       }
 
-      // Source (previously author) appears below notes
+      // publication (previously author) appears below notes
       if(e.author){
         const src = document.createElement('div');
-        src.className = 'source';
-        src.textContent = `Source: ${e.author}`;
+        src.className = 'book';
+        src.textContent = `Book: ${e.author}`;
         card.appendChild(src);
       }
 
