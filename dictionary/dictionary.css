@@ -144,3 +144,12 @@ mark{ background: var(--mark); padding:0 .12rem; border-radius:3px; }
   .detail-panel{ left: 4%; right: 4%; top: 4rem; width: auto; }
   .dictionary-root .controls-row{ gap:.5rem; font-size:.9rem; }
 }
+
+/* Dark mode: flip the dictionary root variable so text becomes white */
+@media (prefers-color-scheme: dark) {
+  .dictionary-root {
+    --fg: #ffffff;
+    background: #000;
+    color: var(--fg);
+  }
+}
