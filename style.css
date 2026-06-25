@@ -30,6 +30,57 @@ body {
   }
 }
 
+/* nav: centered, matches .markdown-body layout */
+nav.markdown-body {
+  box-sizing: border-box;
+  max-width: 980px;    /* same as .markdown-body */
+  margin: 0.75rem auto;
+  padding: 0 1rem;
+  background: transparent;
+}
+
+/* center link row inside the markdown container */
+nav.markdown-body .nav-inner {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* navbar stuff*/
+nav.markdown-body a {
+  color: var(--fg, inherit);
+  text-decoration: none;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  line-height: 1.4;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+/* more navbar */
+nav.markdown-body a:hover,
+nav.markdown-body a:focus {
+  background-color: rgba(0,0,0,0.06);
+  outline: none;
+}
+
+/* why is there so much navbar */
+@media (prefers-color-scheme: dark) {
+  nav.markdown-body a:hover,
+  nav.markdown-body a:focus {
+    background-color: rgba(255,255,255,0.06);
+  }
+}
+
+/* this navbar -_-. optional: visually indicate active page */
+nav.markdown-body a[aria-current="page"] {
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 /* Light mode */
 @media (prefers-color-scheme: light) {
   body {
