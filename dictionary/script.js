@@ -1,5 +1,5 @@
 // dictionary/script.js
-// Full implementation (IDB cache, Fuse fuzzy, filters, search-in selector, keyboard nav, detail modal)
+// Full implementation (IDB cache, Fuse fuzzy, filters, search-in selector, keyboard nav)
 
 (() => {
   'use strict';
@@ -20,10 +20,6 @@
   const refreshBtn = document.getElementById('refresh');
   const resultsEl = document.getElementById('results');
   const statusEl = document.getElementById('status');
-
-  const detailModal = document.getElementById('detailModal');
-  const detailContent = document.getElementById('detailContent');
-  const closeDetail = document.getElementById('closeDetail');
 
   let entries = [];
   let fuse = null;
@@ -359,8 +355,7 @@
         card.appendChild(tline);
       }
 
-      card.addEventListener('click', () => openDetail(i));
-      card.addEventListener('keydown', (ev) => { if(ev.key === 'Enter'){ openDetail(i); ev.preventDefault(); } });
+      // removed detail modal open on click/enter; entries are now static
 
       list.appendChild(card);
     });
@@ -396,65 +391,8 @@
       if(!listEls || listEls.length === 0) return;
       if(!inSearch && focusedIndex >= 0) focusResult(focusedIndex - 1);
       else focusResult(listEls.length - 1);
-    } else if(ev.key === 'Escape'){
-      if(detailModal && detailModal.getAttribute('aria-hidden') === 'false') closeDetailModal();
     }
   });
-
-  // Detail view
-  function openDetail(displayIndex){
-    const entry = displayed[displayIndex];
-    if(!entry) return;
-    if(!detailModal || !detailContent){
-      console.warn('detail modal or content not present');
-      return;
-    }
-    detailContent.innerHTML = '';
-    const title = document.createElement('h2'); title.textContent = mkHeadwordsString(entry.headword);
-    detailContent.appendChild(title);
-
-    const sign = document.createElement('p'); sign.className = 'sign'; sign.textContent = entry.sign || '';
-    detailContent.appendChild(sign);
-
-    if(entry.note){
-      const note = document.createElement('div'); note.className = 'note'; note.textContent = entry.note;
-      detailContent.appendChild(note);
-    }
-
-    // Source appears below notes in detail view as well
-    if(entry.author){
-      const a = document.createElement('div'); a.className = 'source'; a.textContent = `Source: ${entry.author}`; detailContent.appendChild(a);
-    }
-
-    if(Array.isArray(entry.tags) && entry.tags.length){
-      const tags = document.createElement('div'); tags.className = 'tags'; tags.textContent = 'Tags: ' + entry.tags.join(', '); detailContent.appendChild(tags);
-    }
-
-    detailModal.setAttribute('aria-hidden','false');
-    detailModal.classList.add('open');
-    if(closeDetail) closeDetail.focus();
-  }
-
-  function closeDetailModal(){
-    if(!detailModal) return;
-    detailModal.setAttribute('aria-hidden','true');
-    detailModal.classList.remove('open');
-    if(searchEl) searchEl.focus();
-  }
-
-  if(closeDetail) {
-    closeDetail.addEventListener('click', closeDetailModal);
-  } else {
-    console.warn('dictionary script: closeDetail button not found; detail close disabled');
-  }
-
-  if(detailModal) {
-    detailModal.addEventListener('click', (ev) => {
-      if(ev.target === detailModal || ev.target.classList.contains('detail-backdrop')) closeDetailModal();
-    });
-  } else {
-    console.warn('dictionary script: detailModal not found; detail view disabled');
-  }
 
   // Event wiring
   function debounce(fn, wait=160){ let t; return (...args)=>{ clearTimeout(t); t = setTimeout(()=>fn(...args), wait); }; }
