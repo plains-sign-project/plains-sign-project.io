@@ -30,27 +30,36 @@ body {
   }
 }
 
-/* nav: centered, matches .markdown-body layout */
+/* Link color variable (light/dark aware) */
+:root {
+  --link-color: #0366d6; /* GitHub-like blue for light mode */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root { --link-color: #58a6ff; } /* slightly lighter blue for dark mode */
+}
+
+/* nav: matches .markdown-body layout; reduced bottom gap */
 nav.markdown-body {
   box-sizing: border-box;
   max-width: 980px;    /* same as .markdown-body */
-  margin: 0.75rem auto;
+  margin: 0.5rem auto 0; /* smaller top and no bottom gap */
   padding: 0 1rem;
   background: transparent;
 }
 
-/* center link row inside the markdown container */
+/* left-align link row inside the markdown container */
 nav.markdown-body .nav-inner {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* left align instead of centered */
   gap: 0.75rem;
   align-items: center;
   flex-wrap: wrap;
 }
 
-/* navbar stuff*/
+/* navbar links: use the linked-text color */
 nav.markdown-body a {
-  color: var(--fg, inherit);
+  color: var(--link-color);
   text-decoration: none;
   padding: 0.35rem 0.6rem;
   border-radius: 6px;
@@ -59,22 +68,23 @@ nav.markdown-body a {
   transition: background-color 0.12s ease, color 0.12s ease;
 }
 
-/* more navbar */
+/* hover/focus: subtle underline instead of heavy background */
 nav.markdown-body a:hover,
 nav.markdown-body a:focus {
-  background-color: rgba(0,0,0,0.06);
+  text-decoration: underline;
+  background-color: transparent;
   outline: none;
 }
 
-/* why is there so much navbar */
 @media (prefers-color-scheme: dark) {
   nav.markdown-body a:hover,
   nav.markdown-body a:focus {
-    background-color: rgba(255,255,255,0.06);
+    text-decoration: underline;
+    background-color: transparent;
   }
 }
 
-/* this navbar -_-. optional: visually indicate active page */
+/* optional: visually indicate active page */
 nav.markdown-body a[aria-current="page"] {
   font-weight: 600;
   text-decoration: underline;
