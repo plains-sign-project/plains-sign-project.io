@@ -84,8 +84,8 @@
   font-size:.95rem;
 }
 
-/* Author / Source*/
-.dictionary-root .source {
+/* Author / book (no longer Source)*/
+.dictionary-root .book {
   font-style:italic;
   color:var(--muted);
   font-size: 0.9rem;
