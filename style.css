@@ -39,11 +39,11 @@ body {
   :root { --link-color: #58a6ff; } /* slightly lighter blue for dark mode */
 }
 
-/* nav: matches .markdown-body layout; reduced bottom gap */
+/* nav: matches .markdown-body layout; reduced vertical gap */
 nav.markdown-body {
   box-sizing: border-box;
   max-width: 980px;    /* same as .markdown-body */
-  margin: 0.5rem auto 0; /* smaller top and no bottom gap */
+  margin: 0.25rem auto 0.25rem; /* smaller top and bottom gap */
   padding: 0 1rem;
   background: transparent;
 }
@@ -89,6 +89,11 @@ nav.markdown-body a[aria-current="page"] {
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* Reduce top margin of first heading so nav and heading sit closer */
+.markdown-body > h1:first-child {
+  margin-top: 0.25rem;
 }
 
 /* Light mode */
