@@ -92,6 +92,23 @@ nav.markdown-body a[aria-current="page"] {
   margin-top: 0.25rem;
 }
 
+/* Even out list spacing: marked wraps item text in <p> when a nested list or
+   blockquote follows, and github-markdown-css adds 1rem margins to those. */
+.markdown-body li > p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.markdown-body li > p + ul,
+.markdown-body li > p + ol {
+  margin-top: 0.25em;
+}
+
+.markdown-body li blockquote {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
 /* Light mode */
 @media (prefers-color-scheme: light) {
   body {
