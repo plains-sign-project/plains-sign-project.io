@@ -2,7 +2,7 @@ Work in progress
 
 [insert resources here]
 
-I would like to include a table that tells:
+I would like to have a table for all the dictionary resources that tells:
 - author
 - how many signs are in each dictionary
 - how many sign illustrations there are
