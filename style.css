@@ -47,7 +47,7 @@ body {
 nav.markdown-body {
   box-sizing: border-box;
   max-width: 980px;    /* same as .markdown-body */
-  margin: 0.25rem auto 0.25rem; /* smaller top and bottom gap */
+  margin: 0.25rem auto 1rem; /* smaller top and bottom gap */
   padding: 0 0.25rem;
   background: transparent;
 }
