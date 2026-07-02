@@ -21,7 +21,7 @@ Features I would like to add to this website:
   - these dictionaries contain a wealth of information, but as of yet, their data has never been combined in a single place.
   - most of these resources *do* have decent scans available on the internet for free, but only one so far has a good digital text version.
 - a list of resources. as of yet, there are no decent lists of resources for Plains Sign available on the internet. Here are a few quick lists:
-  -Free Dictionaries:
+  - Free Dictionaries:
     - Mallery 1880 ([PDF original scans](https://library.si.edu/digital-library/book/collectionofgest00smit) | [PDF black & white scans](https://archive.org/details/cihm_17852))
     - Clark 1885 ([PDF black & white scans](https://archive.org/details/cu31924028770570))
     - Hadley 1893 ([PDF original scans](https://publicdomainreview.org/collection/indian-sign-talk/) | [PDF black & white scans](https://archive.org/details/cihm_32888) | [PDF list scans](https://www.lib.montana.edu/digital/objects/coll2204/2204-B01-F37.pdf))
