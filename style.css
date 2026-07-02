@@ -48,7 +48,7 @@ nav.markdown-body {
   box-sizing: border-box;
   max-width: 980px;    /* same as .markdown-body */
   margin: 0.25rem auto 0.25rem; /* smaller top and bottom gap */
-  padding: 0 1rem;
+  padding: 0 0.25rem;
   background: transparent;
 }
 
@@ -80,16 +80,16 @@ nav.markdown-body a:focus {
   outline: none;
 }
 
-/* optional: visually indicate active page */
+/* visually indicate active page */
 nav.markdown-body a[aria-current="page"] {
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-/* Reduce top margin of first heading so nav and heading sit closer */
+/* Less space above first heading */
 .markdown-body > h1:first-child {
-  margin-top: 0.25rem;
+  margin-top: 0.25rem auto 0;
 }
 
 /* Even out list spacing: marked wraps item text in <p> when a nested list or
