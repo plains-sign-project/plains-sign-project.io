@@ -14,7 +14,7 @@ Plains Sign was also an important source of signs in the development of American
 
 The aim of this site is to make Plains Sign and information related to it easily accessible.
 
-Features I would like to add to this website:
+### Features I would like to add to this website:
 
 - a Plains Sign dictionary
   - there are several Plains Sign dictionaries that were written in the late 1800s and early 1900s. These were made at different times and with Plains Signing informants from different areas.
@@ -42,3 +42,17 @@ Features I would like to add to this website:
 - a map that shows where about and from which group each sign was collected, when that information is available
 - a way for users to upload their own signs
 - a way for users to comment on the different signs
+
+### Progress so far
+
+- Dictionary page has been created
+  - dictionary stored in cache, so searchable offline once the page is loaded or downloaded
+  - has search function with a few options
+    - but most options can't be combined yet
+  - has all entries from Seton's dictionary
+    - but not the picutres yet
+    - have not marked which signs he invented
+  - has a few entries from Hadley, just to test. no illustrations
+  - each entry includes which book it was in
+  - related headwords are italicized
+    - but not yet linked
