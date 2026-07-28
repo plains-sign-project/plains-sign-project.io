@@ -89,6 +89,17 @@
   }
   function mkHeadwordsString(hws){ return Array.isArray(hws) ? hws.join(' • ') : (hws || ''); }
 
+// return a relative image src path for an entry or null
+function imageSrcFor(entry){
+  if(!entry || !entry.image) return null;
+  // prefer entry.author but fall back to top-level dictAuthor if available
+  const authorName = (entry.author && String(entry.author).trim()) || dictAuthor || '';
+  if(!authorName) return null;
+  const folder = `${authorName} Images`; // matches your repo folder names
+  // encode each path segment to safely handle spaces/special chars
+  return ['images', folder, entry.image].map(encodeURIComponent).join('/');
+}
+  
   // Robust fetch with fallback
   async function tryFetchJson(url){
     const res = await fetch(url, { cache: 'no-cache' });
@@ -316,6 +327,18 @@
     list.setAttribute('role','list');
     list.className = 'results-list';
 
+    // add image when available (insert before textual content so float/right works)
+    const src = imageSrcFor(e);
+    if(src){
+      const img = document.createElement('img');
+      img.src = src; // relative to dictionary/index.html
+      img.alt = (Array.isArray(e.headword) ? e.headword[0] : e.headword) || 'dictionary image';
+      img.className = 'dict-image';
+      // if missing file, hide image (or set placeholder)
+      img.onerror = () => { img.style.display = 'none'; /* or set a placeholder: img.src = 'images/shared/placeholder.png' */ };
+      card.appendChild(img);
+    }
+    
     displayed.forEach((e, i) => {
       const card = document.createElement('article');
       card.className = 'card';
