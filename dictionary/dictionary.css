@@ -167,6 +167,20 @@ mark{ background: var(--mark); padding:0 .12rem; border-radius:3px; }
     color: var(--fg);
   }
 
+.dict-image {
+  width: 120px;        /* adjust to desired size */
+  height: auto;
+  float: right;        /* or use flex/grid layout instead */
+  margin-left: 10px;
+  margin-bottom: 6px;
+  border-radius: 4px;
+  object-fit: contain;
+}
+.entry {
+  overflow: auto;      /* ensure floated image doesn't overlap next entry */
+  margin-bottom: 1.2rem;
+}
+  
   .detail-panel {
     background: #000;
   }
