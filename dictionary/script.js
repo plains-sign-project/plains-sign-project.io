@@ -148,7 +148,8 @@ function imageSrcFor(entry){
         sign: e.sign || '',
         note: e.note || '',
         tags: Array.isArray(e.tags) ? e.tags.slice() : (e.tags ? [e.tags] : []),
-        author: (e.author && String(e.author)) || dictAuthor || ''
+        author: (e.author && String(e.author)) || dictAuthor || '',
+        image: e.image || null
       }));
 
       const needUpdate = !cached || cached.entries.length !== loaded.length;
@@ -327,24 +328,24 @@ function imageSrcFor(entry){
     list.setAttribute('role','list');
     list.className = 'results-list';
 
-    // add image when available (insert before textual content so float/right works)
-    const src = imageSrcFor(e);
-    if(src){
-      const img = document.createElement('img');
-      img.src = src; // relative to dictionary/index.html
-      img.alt = (Array.isArray(e.headword) ? e.headword[0] : e.headword) || 'dictionary image';
-      img.className = 'dict-image';
-      // if missing file, hide image (or set placeholder)
-      img.onerror = () => { img.style.display = 'none'; /* or set a placeholder: img.src = 'images/shared/placeholder.png' */ };
-      card.appendChild(img);
-    }
-    
     displayed.forEach((e, i) => {
       const card = document.createElement('article');
       card.className = 'card';
       card.setAttribute('role','listitem');
       card.tabIndex = 0;
       card.dataset.index = i;
+
+      // add image when available (insert before textual content so float/right works)
+      const src = imageSrcFor(e);
+      if(src){
+        const img = document.createElement('img');
+        img.src = src; // relative to dictionary/index.html
+        img.alt = (Array.isArray(e.headword) ? e.headword[0] : e.headword) || 'dictionary image';
+        img.className = 'dict-image';
+        // if missing file, hide image (or set placeholder)
+        img.onerror = () => { img.style.display = 'none'; /* or set a placeholder: img.src = 'images/shared/placeholder.png' */ };
+        card.appendChild(img);
+      }
 
       const hw = document.createElement('div');
       hw.className = 'headwords';
