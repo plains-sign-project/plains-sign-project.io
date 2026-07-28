@@ -105,7 +105,6 @@
 
 {
 "headword": ["Act"],
-"image": "page-5a.jpg",
 "note": "as in a play.",
 "sign": "Sign <i>Face</i>, <i>Two</i>, <i>Dance</i> (that is dancing with a mask) (not established).",
 "author": "Seton"
@@ -610,7 +609,7 @@
 
 {
 "headword": ["Ashamed"],
-"image": "page-15e.jpg",
+"image": "page-16a.jpg",
 "note": "You should be.",
 "sign": "See <i>Shame</i>.",
 "author": "Seton"
@@ -757,7 +756,6 @@
 
 {
 "headword": ["Backbite"],
-"image": "page-18c.jpg",
 "sign": "Sign <i>Scold</i>, <i>Talk</i>, and <i>Hide</i>.",
 "author": "Seton"
 },
@@ -874,7 +872,7 @@
 
 {
 "headword": ["Basket"],
-"image": "page-21a.jpg",
+"image": "page-21b.jpg",
 "sign": "Lock the fingers of the hollowed hands, backs down, join the thumbs as for a handle, then with the right hand grasp left thumb and raise the hand a few inches. (Sioux.) Compare <i>Corral</i>.",
 "author": "Seton"
 },
@@ -929,7 +927,6 @@
 
 {
 "headword": ["Beads"],
-"image": "page-22b.jpg",
 "sign": "Simulate holding beads between the left index and thumb, while threading them with a needle in the right. For <i>Beadwork</i> add a design or sign for <i>Work</i>.",
 "author": "Seton"
 },
@@ -951,7 +948,7 @@
 
 {
 "headword": ["Bear"],
-"image": "page-22d.jpg",
+"image": "page-22e.jpg",
 "sign": "Hold up flat fists near ears, palms forward, to indicate round ears. (Blackfoot.) Some indicate the paws by holding up both curved 5 hands.",
 "author": "Seton"
 },
@@ -1143,7 +1140,7 @@
 
 {
 "headword": ["Between"],
-"image": "page-26b.jpg",
+"image": "page-26c.jpg",
 "sign": "Hold left V hand, fingers level, pointing to right (or straight up) and drop right G down between.",
 "author": "Seton"
 },
@@ -6466,20 +6463,32 @@
 },
 
 {
-"headword": ["Meat"],
-"sign 1": "Hold out the flat left, back up; then with the flat right, palm up, slice pieces off the left palm. This is generally used, but often with left palm up.",
-"sign 2": "Lay the flat left hand, little finger down, between the thumb and fingers of the flat right, as far in as possible; then pat the back of the left by opening and closing the right a little and add <i>Buffalo</i>. In conversation, <i>Buffalo</i> without the first sign is often used for <i>Meat</i>, just as we use <i>Beef</i>. The first part of this is much like <i>Thick</i> and <i>Thin</i>, but the whole of the left fingers are involved and the right hand is not slid along.",
-"sign 3": "With right index and thumb, pinch the flesh at the palmar base of the left thumb. (Father Isadore says this is fixed and universal among the Comanches.)",
+"headword": ["Meat (1)"],
+"image": "page-125b.jpg",
+"sign": "Hold out the flat left, back up; then with the flat right, palm up, slice pieces off the left palm. This is generally used, but often with left palm up."
 "author": "Seton"
 },
-
+		
 {
-"headword": ["Meat", "Flesh", "2"],
+"headword": ["Meat (2)", "Flesh"],
 "image": "page-126a.jpg",
 "sign": "With right index finger and thumb, grasp the flesh between left index finger and thumb. (Sioux and Blackfoot.) Note, if this be done by putting the right at the under side of the left, it is the same as the next sign.",
 "author": "Seton"
 },
-
+		
+{
+"headword": ["Meat (3)"],
+"image": "page-126b.jpg",
+"sign": "Lay the flat left hand, little finger down, between the thumb and fingers of the flat right, as far in as possible; then pat the back of the left by opening and closing the right a little and add <i>Buffalo</i>. In conversation, <i>Buffalo</i> without the first sign is often used for <i>Meat</i>, just as we use <i>Beef</i>. The first part of this is much like <i>Thick</i> and <i>Thin</i>, but the whole of the left fingers are involved and the right hand is not slid along. The right in this, it will be noted, shows the pose of the hand when holding a thick piece of meat to be cut up for drying. Clark says there is no sign for <i>Meat</i>; yet, obviously, his sign for <i>Bacon</i> is compounded of <i>Meat</i>, <i>Thin</i>, and <i>Greasy</i>; and the sign he gives for <i>Cutting up</i>, means <i>Cutting up meat</i>.",
+"author": "Seton"
+},	
+		
+{
+"headword": ["Meat (4)"],
+"sign": "With right index and thumb, pinch the flesh at the palmar base of the left thumb. (Father Isadore says this is fixed and universal among the Comanches.)",
+"author": "Seton"
+},
+		
 {
 "headword": ["Medal"],
 "image": "page-126c.jpg",
