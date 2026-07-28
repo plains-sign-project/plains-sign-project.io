@@ -14,6 +14,6 @@ Then I would like to have a list of every resource, giving additional informatio
 
 Attempt at table:
 
-| Author | Title | Source | Signs | Illustr. |
-|--------|-------|--------|------:|---------:|
-| Seton  | Sign Talk | Cheyenne | 1715 | 700 |
+| Author | Title | Year | Source | Signs | Illustr. |
+|--------|-------|------|--------|------:|---------:|
+| Seton  | Sign Talk | 1918 | Cheyenne | 1715 | 700 |
