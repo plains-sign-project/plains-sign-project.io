@@ -9,4 +9,11 @@ I would like to have a table for all the dictionary resources that tells:
 - which tribe(s) the author learned the signs from
 - when each book was published
 - links, like from the main page
+
 Then I would like to have a list of every resource, giving additional information like an annotated bibliography.
+
+Attempt at table:
+
+| Author | Title | Source | Signs | Illustr. |
+|--------|-------|--------|------:|---------:|
+| Seton  | Sign Talk | Cheyenne | 1715 | 700 |
