@@ -179,6 +179,10 @@ mark{ background: var(--mark); padding:0 .12rem; border-radius:3px; }
     color: var(--fg);
   }
 
+  .dict-image {
+    filter: invert(1);
+  }
+  
   .detail-panel {
     background: #000;
   }
