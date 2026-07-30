@@ -50,10 +50,11 @@ The aim of this site is to make Plains Sign and information related to it easily
   - has search function with a few options
     - but most options can't be combined yet
   - has all entries from Seton's dictionary
-    - but not the picutres yet
+    - illustrations too
     - have not marked which signs he invented
+    - have not elaborated on his sources
     - have not added references for his lettered hand positions (ex. "G hand")
-  - has a few entries from Hadley, just to test. no illustrations
+  - has a few entries from Hadley, just to test. no illustrations yet
   - each entry includes which book it was in
   - related headwords are italicized
     - but not yet linked
