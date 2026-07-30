@@ -1,4 +1,9 @@
 /* main styles moved from index.html */
+/* Prevent layout shift between pages when a vertical scrollbar appears */
+html {
+  overflow-y: scroll;
+}
+
 body {
   margin: 0;
 }
