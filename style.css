@@ -43,6 +43,21 @@ body {
   }
 }
 
+/*Spacing for Scroll Bar */
+    /* Preferred: reserve space for the vertical scrollbar without always showing it */
+    :root {
+      scrollbar-gutter: stable;
+    }
+    
+    /* Fallback for older browsers that don't support scrollbar-gutter:
+       only force a visible scrollbar when scrollbar-gutter is not supported */
+    @supports not (scrollbar-gutter: stable) {
+      html {
+        overflow-y: scroll;
+      }
+    }
+
+
 /* nav: matches .markdown-body layout; reduced vertical gap */
 nav.markdown-body {
   box-sizing: border-box;
