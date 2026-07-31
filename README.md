@@ -58,3 +58,8 @@ The aim of this site is to make Plains Sign and information related to it easily
   - each entry includes which book it was in
   - related headwords are italicized
     - but not yet linked
+   
+## Beyond the Website
+
+In addition to this online database, I would like to create learning materials for Plains Sign. One way of doing that is by converting the dictionary database into flashcards. I'll first have to sort out which order signs can be learned in, since so many signs are compounds of others, whose descriptions they depend upon.
+
