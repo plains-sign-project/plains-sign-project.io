@@ -16,7 +16,8 @@ Attempt at table:
 
 | Author | Title | Year | Source | Signs | Illustr. |
 |--------|-------|------|--------|------:|---------:|
-| Clark | Indian Sign Language | 1885 | Arapahoe? | 1,000 | -- |
+| Mallery | Gesture-Signs of the North American Indian | 1880 | Western North America | 700? | -- |
+| Clark | Indian Sign Language | 1885 | Northern Plains | 1,000 | -- |
 | Hadley | Indian Sign Talk | 1891 | Kiowa? | 600 | 600 |
 | Seton  | Sign Talk | 1918 | Cheyenne | 1,715 | 700 |
 | Tomkins | Indian Sign Language | 1926 | Dakota | 800 | 400 |
