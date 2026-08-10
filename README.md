@@ -63,3 +63,8 @@ The aim of this site is to make Plains Sign and information related to it easily
 
 In addition to this online database, I would like to create learning materials for Plains Sign. One way of doing that is by converting the dictionary database into flashcards. I'll first have to sort out which order signs can be learned in, since so many signs are compounds of others, whose descriptions they depend upon.
 
+## Acknowledgements and Disclaimers
+
+Plains Indian Sign Language is not my native language, nor am I an expert on it. I am only repeating information about the language from other signers and scholars.
+
+A huge thanks to the transcriber of <i>Project Gutenberg ebook 50938</i> for transcribing Seton's 1918 <i>Sign Talk</i>, which greatly facilitated importing this public domain book into the dictionary here.
