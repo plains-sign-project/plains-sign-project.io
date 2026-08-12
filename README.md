@@ -67,4 +67,4 @@ In addition to this online database, I would like to create learning materials f
 
 Plains Indian Sign Language is not a native language of mine, nor am I an expert on it. I am only repeating information about the language from signers, scholars, and learned enthusiasts.
 
-A huge thanks to the transcriber of <i>Project Gutenberg ebook 50938</i> for transcribing Seton's 1918 <i>Sign Talk</i>, which greatly facilitated importing this public domain book into the dictionary here.
+A huge thanks to the transcriber of <i>Project Gutenberg ebook 50938</i> for transcribing Seton's 1918 <i>Sign Talk</i>. The webpage version of this transcription helped immensely for importing this public domain book into the dictionary here.
