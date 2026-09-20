@@ -90,8 +90,9 @@
   font-size:0.98rem;
 }
 
-/* Note is italic and muted */
-.note{
+/* Note and additional notes are italic and muted */
+.note,
+.notes{
   font-style:italic;
   color:var(--muted);
   margin-top:.25rem;
