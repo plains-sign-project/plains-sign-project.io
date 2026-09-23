@@ -54,6 +54,8 @@ The aim of this site is to make Plains Sign and information related to it easily
     - have not marked which signs he invented
     - have not elaborated on his sources
     - have not added references for his lettered hand positions (ex. "G hand")
+    - related headwords are italicized
+      - but not yet linked
   - has all entries from Tomkin's dictionary
     - no illustrations yet
     - no bonus content yet (example sentences, synonymy, history)
@@ -61,8 +63,7 @@ The aim of this site is to make Plains Sign and information related to it easily
     - for many entries need to disambiguate where the sign description ends and commentary / cultural notes begin
   - has a few entries from Hadley, just to test. no illustrations yet
   - each entry includes which book it was in
-  - related headwords are italicized
-    - but not yet linked
+
    
 ## Beyond the Website
 
