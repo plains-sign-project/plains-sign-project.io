@@ -57,6 +57,7 @@ The aim of this site is to make Plains Sign and information related to it easily
   - has all entries from Tomkin's dictionary
     - no illustrations yet
     - no bonus content yet (example sentences, synonymy, history)
+  - has all entries from Clark's dictionary
   - has a few entries from Hadley, just to test. no illustrations yet
   - each entry includes which book it was in
   - related headwords are italicized
@@ -71,3 +72,5 @@ In addition to this online database, I would like to create learning materials f
 Plains Indian Sign Language is not a native language of mine, nor am I an expert on it. I am only repeating information about the language from signers, scholars, and learned enthusiasts.
 
 A huge thanks to the transcriber of <i>Project Gutenberg ebook 50938</i> for transcribing Seton's 1918 <i>Sign Talk</i>. The webpage version of this transcription helped immensely for importing this public domain book into the dictionary here.
+
+Please bear in mind that the <i>most recent</i> source for the dictionary on this website is 100 years old. The writing used in the dictionary sources reflect the language, background, political and cultural situations of their times. While their commentary often offers valuable insights, it may not always paint an accurate picture. Many terms that were in common use historically have since fallen out of favor.
