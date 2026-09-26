@@ -69,7 +69,13 @@
     </div>
     <div class="detail-backdrop"></div>
   </div>
-
+  
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@latest"></script>
   <script src="script.js" defer></script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/dictionary/sw.js');
+  }
+</script>
 </body>
 </html>
