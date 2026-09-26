@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Plains Sign Dictionary</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css">
-  <link rel="stylesheet" href="/style.css">
-  <link rel="stylesheet" href="/dictionary/dictionary.css">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="dictionary.css">
   <meta name="color-scheme" content="light dark">
   <!-- Fuse.js for fuzzy searching -->
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js" defer></script>
@@ -14,9 +14,9 @@
 <body>
   <nav class="markdown-body">
     <div class="nav-inner">
-      <a href="/">Home</a> |
-      <a href="/dictionary/" aria-current="page">Dictionary</a> |
-      <a href="/resources/">Resources</a>
+      <a href="../">Home</a> |
+      <a href="./" aria-current="page">Dictionary</a> |
+      <a href="../resources/">Resources</a>
     </div>
   </nav>
   
@@ -73,9 +73,12 @@
   <script src="https://cdn.jsdelivr.net/npm/fuse.js@latest"></script>
   <script src="script.js" defer></script>
   <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/dictionary/sw.js');
-  }
-</script>
+    // Only register service worker for web hosting, not for local downloads
+    if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+      navigator.serviceWorker.register('/dictionary/sw.js').catch(err => {
+        console.warn('Service worker registration failed:', err);
+      });
+    }
+  </script>
 </body>
 </html>
