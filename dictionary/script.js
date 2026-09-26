@@ -4,6 +4,12 @@
 (() => {
   'use strict';
 
+  // Detect if running as a local downloaded file
+  const isLocal = location.protocol === 'file:';
+  
+  // Use relative path for local files, absolute path for web hosting
+  const DICTIONARY_BASE_URL = isLocal ? './' : '/dictionary/';
+
   const DICTIONARY_FILES = [
     { path: 'dictionary - Clark.json', author: 'Clark' },
     { path: 'dictionary - Hadley.json', author: 'Hadley' },
@@ -11,7 +17,6 @@
     { path: 'dictionary - Tomkins.json', author: 'Tomkins' }
   ];
 
-  const DICTIONARY_BASE_URL = '/dictionary/';
   const RAW_DICTIONARY_BASE_URL = 'https://raw.githubusercontent.com/plains-sign-project/plains-sign-project.io/main/dictionary/';
   const IDB_NAME = 'plains-sign-dictionary';
   const IDB_STORE = 'kv';
@@ -122,8 +127,19 @@
   async function fetchDictionaryFile(file){
     const relativeUrl = `${DICTIONARY_BASE_URL}${encodeURIComponent(file.path)}`;
     const rawUrl = `${RAW_DICTIONARY_BASE_URL}${encodeURIComponent(file.path)}`;
-    const onGitHubUI = location.hostname.includes('github.com') || location.protocol === 'file:';
 
+    // For local file:// downloads, only try relative path
+    if(isLocal){
+      try {
+        return await tryFetchJson(relativeUrl);
+      } catch (err) {
+        console.error(`Failed to load ${file.path} locally. Ensure the dictionary JSON files are in the same folder as this HTML file.`, err);
+        throw err;
+      }
+    }
+
+    // For web hosting, try both approaches
+    const onGitHubUI = location.hostname.includes('github.com');
     if(onGitHubUI){
       try {
         return await tryFetchJson(rawUrl);
@@ -171,7 +187,7 @@
     if(cached && Array.isArray(cached.entries)){
       entries = cached.entries.map(e => normalizeEntry(e, e.author || ''));
       initAfterLoad();
-      if(statusEl) statusEl.textContent = `Loaded ${entries.length} cached entries. Updating from network…`;
+      if(statusEl) statusEl.textContent = `Loaded ${entries.length} cached entries.` + (isLocal ? ' (offline mode)' : ' Updating from network…');
     } else if(statusEl) {
       statusEl.textContent = 'No cached dictionary found. Loading from network…';
     }
