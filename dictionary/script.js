@@ -27,6 +27,7 @@
   const fuzzyEl = document.getElementById('fuzzy');
   const exactEl = document.getElementById('exact');
   const fieldSelect = document.getElementById('fieldSelect');
+  const authorFilterEl = document.getElementById('authorFilter');
   const firstLetterEl = document.getElementById('firstLetter');
   const tagFilterEl = document.getElementById('tagFilter');
   const refreshBtn = document.getElementById('refresh');
@@ -217,9 +218,29 @@
 
   function initAfterLoad(){
     buildFirstLetterOptions();
+    buildAuthorOptions();
     buildTagOptions();
     setupFuse();
     renderResults('');
+  }
+
+  function buildAuthorOptions(){
+    if(!authorFilterEl) return;
+    const selectedAuthor = authorFilterEl.value;
+    const authors = new Map();
+    for(const entry of entries){
+      const author = String(entry.author || '').trim();
+      if(author && !authors.has(author.toLowerCase())) authors.set(author.toLowerCase(), author);
+    }
+
+    authorFilterEl.innerHTML = '<option value="">All</option>';
+    Array.from(authors.values()).sort((a, b) => a.localeCompare(b)).forEach(author => {
+      const option = document.createElement('option');
+      option.value = author;
+      option.textContent = author;
+      authorFilterEl.appendChild(option);
+    });
+    authorFilterEl.value = authors.has(selectedAuthor.toLowerCase()) ? authors.get(selectedAuthor.toLowerCase()) : '';
   }
 
   function buildFirstLetterOptions(){
@@ -310,6 +331,12 @@
     return list.filter(e => Array.isArray(e.tags) && e.tags.includes(tag));
   }
 
+  function filterByAuthor(list, author){
+    if(!author) return list;
+    const selectedAuthor = author.trim().toLowerCase();
+    return list.filter(e => String(e.author || '').trim().toLowerCase() === selectedAuthor);
+  }
+
   function exactHeadwordFilter(list, query){
     if(!query) return list;
     const q = query.trim().toLowerCase();
@@ -343,6 +370,7 @@
   function searchEntries(query){
     const useExact = exactEl && exactEl.checked;
     const useFuzzy = fuzzyEl && fuzzyEl.checked && !!fuse && !!query;
+    const author = authorFilterEl ? authorFilterEl.value : '';
     const firstLetter = firstLetterEl ? firstLetterEl.value : '';
     const tag = tagFilterEl ? tagFilterEl.value : '';
 
@@ -362,6 +390,7 @@
       result = substringMatchFields(entries, query, fieldSelect ? fieldSelect.value : 'all');
     }
 
+    result = filterByAuthor(result, author);
     result = filterByFirstLetter(result, firstLetter);
     result = filterByTag(result, tag);
     return result;
@@ -517,7 +546,7 @@
     });
   }
 
-  [fuzzyEl, exactEl, firstLetterEl, tagFilterEl].forEach(el => {
+  [fuzzyEl, exactEl, authorFilterEl, firstLetterEl, tagFilterEl].forEach(el => {
     if(!el) return;
     el.addEventListener('change', () => {
       if(el === fuzzyEl && fieldSelect) setupFuse();
