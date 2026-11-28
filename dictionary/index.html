@@ -34,19 +34,26 @@
       <label><input id="fuzzy" type="checkbox"> Fuzzy (typos)</label>
       <label><input id="exact" type="checkbox"> Exact headword only</label>
 
-      <label for="fieldSelect">Search in:</label>
-      <select id="fieldSelect">
-        <option value="all">All</option>
-        <option value="headword">Headword</option>
-        <option value="definition">Sign Description</option>
-        <option value="note">Note</option>
-        <option value="author">Author</option>
-      </select>
+      <details id="fieldSelect" class="multi-select">
+        <summary>Search in: <span data-selection-summary>All</span></summary>
+        <fieldset>
+          <legend class="sr-only">Search in fields</legend>
+          <label><input type="checkbox" data-all checked> All</label>
+          <label><input type="checkbox" data-option="headword"> Headword</label>
+          <label><input type="checkbox" data-option="definition"> Sign Description</label>
+          <label><input type="checkbox" data-option="note"> Note</label>
+          <label><input type="checkbox" data-option="author"> Author</label>
+        </fieldset>
+      </details>
 
-      <label for="authorFilter">Author:</label>
-      <select id="authorFilter">
-        <option value="">All</option>
-      </select>
+      <details id="authorFilter" class="multi-select">
+        <summary>Author: <span data-selection-summary>All</span></summary>
+        <fieldset>
+          <legend class="sr-only">Filter by author</legend>
+          <label><input type="checkbox" data-all checked> All</label>
+          <div data-options></div>
+        </fieldset>
+      </details>
 
       <label for="firstLetter">First letter:</label>
       <select id="firstLetter">

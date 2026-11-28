@@ -1,5 +1,5 @@
 // dictionary/script.js
-// Full implementation (IDB cache, Fuse fuzzy, filters, search-in selector, keyboard nav)
+// Full implementation (IDB cache, Fuse fuzzy, filters, search-field multi-select, keyboard nav)
 
 (() => {
   'use strict';
@@ -224,23 +224,94 @@
     renderResults('');
   }
 
+  function getSelectedOptions(container){
+    if(!container) return ['all'];
+    const allCheckbox = container.querySelector('[data-all]');
+    if(allCheckbox && allCheckbox.checked) return ['all'];
+    return Array.from(container.querySelectorAll('input[data-option]:checked'))
+      .map(checkbox => checkbox.dataset.option);
+  }
+
+  function isAllSelected(container){
+    const allCheckbox = container && container.querySelector('[data-all]');
+    return !!(allCheckbox && allCheckbox.checked);
+  }
+
+  function updateSelectionSummary(container){
+    if(!container) return;
+    const summary = container.querySelector('[data-selection-summary]');
+    if(!summary) return;
+
+    const selected = getSelectedOptions(container);
+    if(selected.includes('all') || selected.length === 0){
+      summary.textContent = 'All';
+    } else if(selected.length === 1){
+      const option = Array.from(container.querySelectorAll('input[data-option]'))
+        .find(checkbox => checkbox.dataset.option === selected[0]);
+      summary.textContent = option ? option.parentElement.textContent.trim() : '1 selected';
+    } else {
+      summary.textContent = `${selected.length} selected`;
+    }
+  }
+
+  function setupCheckboxDropdown(container, onChange){
+    if(!container) return;
+    container.addEventListener('change', event => {
+      const checkbox = event.target;
+      if(!(checkbox instanceof HTMLInputElement) || checkbox.type !== 'checkbox') return;
+
+      const allCheckbox = container.querySelector('[data-all]');
+      const optionCheckboxes = Array.from(container.querySelectorAll('input[data-option]'));
+      if(checkbox === allCheckbox && checkbox.checked){
+        optionCheckboxes.forEach(option => { option.checked = false; });
+      } else if(checkbox !== allCheckbox && checkbox.checked && allCheckbox){
+        allCheckbox.checked = false;
+      }
+
+      if(allCheckbox && !allCheckbox.checked && !optionCheckboxes.some(option => option.checked)){
+        allCheckbox.checked = true;
+      }
+
+      updateSelectionSummary(container);
+      onChange();
+    });
+
+    container.addEventListener('keydown', event => {
+      if(event.key === 'Escape' && container.open){
+        container.open = false;
+        container.querySelector('summary').focus();
+      }
+    });
+    updateSelectionSummary(container);
+  }
+
   function buildAuthorOptions(){
     if(!authorFilterEl) return;
-    const selectedAuthor = authorFilterEl.value;
+    const allSelected = isAllSelected(authorFilterEl);
+    const selectedAuthors = new Set(getSelectedOptions(authorFilterEl));
+    const optionsEl = authorFilterEl.querySelector('[data-options]');
+    if(!optionsEl) return;
     const authors = new Map();
     for(const entry of entries){
       const author = String(entry.author || '').trim();
       if(author && !authors.has(author.toLowerCase())) authors.set(author.toLowerCase(), author);
     }
 
-    authorFilterEl.innerHTML = '<option value="">All</option>';
+    optionsEl.innerHTML = '';
     Array.from(authors.values()).sort((a, b) => a.localeCompare(b)).forEach(author => {
-      const option = document.createElement('option');
-      option.value = author;
-      option.textContent = author;
-      authorFilterEl.appendChild(option);
+      const label = document.createElement('label');
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.dataset.option = author;
+      checkbox.checked = !allSelected && selectedAuthors.has(author);
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(` ${author}`));
+      optionsEl.appendChild(label);
     });
-    authorFilterEl.value = authors.has(selectedAuthor.toLowerCase()) ? authors.get(selectedAuthor.toLowerCase()) : '';
+    if(!allSelected && !optionsEl.querySelector('input:checked')){
+      authorFilterEl.querySelector('[data-all]').checked = true;
+    }
+    updateSelectionSummary(authorFilterEl);
   }
 
   function buildFirstLetterOptions(){
@@ -278,38 +349,41 @@
     });
   }
 
-  function getFuseKeysForSelection(sel){
-    if(!sel) sel = 'all';
-    switch(sel){
-      case 'headword':
-        return [{ name: 'headword', weight: 1 }];
-      case 'definition':
-        return [{ name: 'sign', weight: 1 }];
-      case 'note':
-        return [
-          { name: 'note', weight: 1 },
-          { name: 'notes', weight: 1 }
-        ];
-      case 'author':
-        return [{ name: 'author', weight: 1 }];
-      case 'all':
-      default:
-        return [
-          { name: 'headword', weight: 0.6 },
-          { name: 'sign', weight: 0.2 },
-          { name: 'note', weight: 0.08 },
-          { name: 'notes', weight: 0.08 },
-          { name: 'author', weight: 0.04 }
-        ];
+  function getFuseKeysForSelection(selection){
+    if(!selection || selection.includes('all')){
+      return [
+        { name: 'headword', weight: 0.6 },
+        { name: 'sign', weight: 0.2 },
+        { name: 'note', weight: 0.08 },
+        { name: 'notes', weight: 0.08 },
+        { name: 'author', weight: 0.04 }
+      ];
     }
+
+    return selection.flatMap(sel => {
+      switch(sel){
+        case 'headword':
+          return [{ name: 'headword', weight: 1 }];
+        case 'definition':
+          return [{ name: 'sign', weight: 1 }];
+        case 'note':
+          return [
+            { name: 'note', weight: 1 },
+            { name: 'notes', weight: 1 }
+          ];
+        case 'author':
+          return [{ name: 'author', weight: 1 }];
+        default:
+          return [];
+      }
+    });
   }
 
   function setupFuse(){
     if(typeof Fuse === 'undefined'){ fuse = null; return; }
     try {
-      const sel = fieldSelect ? fieldSelect.value : 'all';
       const options = {
-        keys: getFuseKeysForSelection(sel),
+        keys: getFuseKeysForSelection(getSelectedOptions(fieldSelect)),
         includeScore: true,
         threshold: 0.4,
         ignoreLocation: true
@@ -331,10 +405,10 @@
     return list.filter(e => Array.isArray(e.tags) && e.tags.includes(tag));
   }
 
-  function filterByAuthor(list, author){
-    if(!author) return list;
-    const selectedAuthor = author.trim().toLowerCase();
-    return list.filter(e => String(e.author || '').trim().toLowerCase() === selectedAuthor);
+  function filterByAuthor(list, authors){
+    if(!authors || authors.includes('all')) return list;
+    const selectedAuthors = new Set(authors.map(author => author.trim().toLowerCase()));
+    return list.filter(e => selectedAuthors.has(String(e.author || '').trim().toLowerCase()));
   }
 
   function exactHeadwordFilter(list, query){
@@ -343,34 +417,41 @@
     return list.filter(e => e.headword.some(hw => (hw || '').toLowerCase() === q));
   }
 
-  function substringMatchFields(list, query, sel){
+  function substringMatchFields(list, query, selection){
     if(!query) return list.slice();
     const q = query.trim().toLowerCase();
-    const only = sel || (fieldSelect ? fieldSelect.value : 'all');
+    const selectedFields = selection || getSelectedOptions(fieldSelect);
     return list.filter(e => {
-      if(only === 'headword'){
-        return e.headword.some(hw => (hw || '').toLowerCase().includes(q));
-      } else if(only === 'definition'){
-        return (e.sign || '').toLowerCase().includes(q);
-      } else if(only === 'note'){
-        return (e.note || '').toLowerCase().includes(q) || (e.notes || '').toLowerCase().includes(q);
-      } else if(only === 'author'){
-        return (e.author || '').toLowerCase().includes(q);
-      } else {
-        if(e.headword.some(hw => (hw || '').toLowerCase().includes(q))) return true;
-        if((e.sign || '').toLowerCase().includes(q)) return true;
-        if((e.note || '').toLowerCase().includes(q)) return true;
-        if((e.notes || '').toLowerCase().includes(q)) return true;
-        if((e.author || '').toLowerCase().includes(q)) return true;
-        return false;
-      }
+      if(selectedFields.includes('all')) return [
+        ...e.headword,
+        e.sign,
+        e.note,
+        e.notes,
+        e.author
+      ].some(value => String(value || '').toLowerCase().includes(q));
+
+      return selectedFields.some(field => {
+        switch(field){
+          case 'headword':
+            return e.headword.some(hw => (hw || '').toLowerCase().includes(q));
+          case 'definition':
+            return (e.sign || '').toLowerCase().includes(q);
+          case 'note':
+            return (e.note || '').toLowerCase().includes(q) || (e.notes || '').toLowerCase().includes(q);
+          case 'author':
+            return (e.author || '').toLowerCase().includes(q);
+          default:
+            return false;
+        }
+      });
     });
   }
 
   function searchEntries(query){
     const useExact = exactEl && exactEl.checked;
     const useFuzzy = fuzzyEl && fuzzyEl.checked && !!fuse && !!query;
-    const author = authorFilterEl ? authorFilterEl.value : '';
+    const authors = getSelectedOptions(authorFilterEl);
+    const fields = getSelectedOptions(fieldSelect);
     const firstLetter = firstLetterEl ? firstLetterEl.value : '';
     const tag = tagFilterEl ? tagFilterEl.value : '';
 
@@ -384,13 +465,13 @@
         result = fuseRes.map(r => r.item);
       } catch (e) {
         console.warn('Fuse search error', e);
-        result = substringMatchFields(entries, query, fieldSelect ? fieldSelect.value : 'all');
+        result = substringMatchFields(entries, query, fields);
       }
     } else {
-      result = substringMatchFields(entries, query, fieldSelect ? fieldSelect.value : 'all');
+      result = substringMatchFields(entries, query, fields);
     }
 
-    result = filterByAuthor(result, author);
+    result = filterByAuthor(result, authors);
     result = filterByFirstLetter(result, firstLetter);
     result = filterByTag(result, tag);
     return result;
@@ -539,14 +620,15 @@
     });
   }
 
-  if(fieldSelect) {
-    fieldSelect.addEventListener('change', () => {
-      setupFuse();
-      renderResults(searchEl ? searchEl.value : '');
-    });
-  }
+  setupCheckboxDropdown(fieldSelect, () => {
+    setupFuse();
+    renderResults(searchEl ? searchEl.value : '');
+  });
+  setupCheckboxDropdown(authorFilterEl, () => {
+    renderResults(searchEl ? searchEl.value : '');
+  });
 
-  [fuzzyEl, exactEl, authorFilterEl, firstLetterEl, tagFilterEl].forEach(el => {
+  [fuzzyEl, exactEl, firstLetterEl, tagFilterEl].forEach(el => {
     if(!el) return;
     el.addEventListener('change', () => {
       if(el === fuzzyEl && fieldSelect) setupFuse();
