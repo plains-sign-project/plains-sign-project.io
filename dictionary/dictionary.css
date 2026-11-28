@@ -50,10 +50,65 @@
 }
 
 .dictionary-root .controls-row label{ cursor:pointer; display:inline-flex; gap:.35rem; align-items:center; color:var(--muted); }
-.dictionary-root select {
+.dictionary-root select,
+.dictionary-root .multi-select summary {
   background: var(--input-bg);
   color: var(--fg);
   border: 1px solid var(--muted-border);
+}
+
+.dictionary-root .multi-select {
+  position: relative;
+}
+
+.dictionary-root .multi-select summary {
+  border-radius: 6px;
+  cursor: pointer;
+  list-style: none;
+  padding: .25rem .5rem;
+  white-space: nowrap;
+}
+
+.dictionary-root .multi-select summary::-webkit-details-marker {
+  display: none;
+}
+
+.dictionary-root .multi-select summary::after {
+  content: " ▾";
+}
+
+.dictionary-root .multi-select[open] summary {
+  border-color: var(--accent);
+}
+
+.dictionary-root .multi-select fieldset {
+  background: var(--input-bg);
+  border: 1px solid var(--muted-border);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .12);
+  left: 0;
+  margin: .25rem 0 0;
+  min-width: 100%;
+  padding: .4rem .65rem;
+  position: absolute;
+  top: 100%;
+  width: max-content;
+  z-index: 20;
+}
+
+.dictionary-root .multi-select fieldset label {
+  display: flex;
+  gap: .4rem;
+  padding: .2rem 0;
+  white-space: nowrap;
+}
+
+.dictionary-root .multi-select fieldset label input {
+  margin: 0;
+}
+
+.dictionary-root .multi-select fieldset [data-options] {
+  display: grid;
 }
 
 /* Results list scoped to the dictionary page */
