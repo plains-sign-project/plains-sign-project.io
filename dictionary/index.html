@@ -29,7 +29,7 @@
       <button id="clear" title="Clear search">✕</button>
     </div>
 
-    <!-- controls: fuzzy, exact, field selection, first letter, tag -->
+    <!-- controls: fuzzy, exact, field selection, author, first letter, tag -->
     <div class="controls-row">
       <label><input id="fuzzy" type="checkbox"> Fuzzy (typos)</label>
       <label><input id="exact" type="checkbox"> Exact headword only</label>
@@ -41,6 +41,11 @@
         <option value="definition">Sign Description</option>
         <option value="note">Note</option>
         <option value="author">Author</option>
+      </select>
+
+      <label for="authorFilter">Author:</label>
+      <select id="authorFilter">
+        <option value="">All</option>
       </select>
 
       <label for="firstLetter">First letter:</label>
